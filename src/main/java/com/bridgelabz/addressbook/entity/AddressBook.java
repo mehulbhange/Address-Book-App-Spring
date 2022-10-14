@@ -1,5 +1,7 @@
 package com.bridgelabz.addressbook.entity;
 
+import com.bridgelabz.addressbook.dto.AddressBookDTO;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -21,6 +23,14 @@ public class AddressBook {
         this.lastName = lastName;
         this.contactNo = contactNo;
         this.city = city;
+    }
+
+    public AddressBook(long id, AddressBookDTO addressBookDTO){
+        this.id = id;
+        this.firstName = addressBookDTO.getFirstName();
+        this.lastName = addressBookDTO.getLastName();
+        this.contactNo = addressBookDTO.getContactNo();
+        this.city = addressBookDTO.getCity();
     }
 
     public long getId() {
