@@ -11,35 +11,53 @@ import java.util.List;
 @Service
 public class AddressBookServiceImpl implements IAddressBookService{
 
+    List<AddressBook> addressBookList = new ArrayList<>();
+
     @Override
     public ResponseEntity<List<AddressBook>> getAddressBookData() {
-        List<AddressBook> addressBookList = new ArrayList<>();
-        addressBookList.add(new AddressBook(101,"Mehul","Bhange","9090909090","Akole"));
-        addressBookList.add(new AddressBook(102,"Abc","Xyz","9090909090","Pune"));
         return new ResponseEntity<>(addressBookList, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<AddressBook> getAddressBookDataById(int personId) {
-        AddressBook addressBook = new AddressBook(personId,"Mehul","Bhange","9090909090","Akole");
+        AddressBook addressBook = null;
+        for (AddressBook addBook : addressBookList){
+            if (addBook.getId() == personId){
+                addressBook = addBook;
+            }
+        }
         return new ResponseEntity<>(addressBook, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<AddressBook> createAddressBookData(AddressBookDTO addressBookDTO) {
-        AddressBook addressBook = new AddressBook(101, addressBookDTO);
+        AddressBook addressBook = new AddressBook(addressBookList.size()+1 , addressBookDTO);
+        addressBookList.add(addressBook);
         return new ResponseEntity<>(addressBook, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<AddressBook> updateAddressBookData(int personId, AddressBookDTO addressBookDTO) {
-        AddressBook addressBook = new AddressBook(personId, addressBookDTO);
+        AddressBook addressBook = null;
+        for (AddressBook addBook : addressBookList){
+            if (addBook.getId() == personId){
+                addressBookList.remove(addBook);
+                addressBook = new AddressBook(personId,addressBookDTO);
+                addressBookList.add(addressBook);
+            }
+        }
         return new ResponseEntity<>(addressBook, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<String> deleteAddressBookData(int personId) {
-        return new ResponseEntity<>("Deleted address book data for id : "+personId, HttpStatus.OK);
+        for (AddressBook addBook : addressBookList){
+            if (addBook.getId() == personId){
+                addressBookList.remove(addBook);
+                return new ResponseEntity<>("Deleted address book data for id : "+personId, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Address book data not found for id : "+personId, HttpStatus.NOT_FOUND);
     }
 
 
