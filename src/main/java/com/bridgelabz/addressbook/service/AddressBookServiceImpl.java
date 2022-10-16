@@ -42,7 +42,7 @@ public class AddressBookServiceImpl implements IAddressBookService{
             addressBook.setFirstName(addressBookDTO.getFirstName());
             addressBook.setLastName(addressBookDTO.getLastName());
             addressBook.setContactNo(addressBookDTO.getContactNo());
-            addressBook.setCity(addressBook.getCity());
+            addressBook.setCity(addressBookDTO.getCity());
             addressBookRepo.save(addressBook);
         }
         return new ResponseEntity<>(addressBook, HttpStatus.OK);
