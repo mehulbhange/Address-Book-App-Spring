@@ -19,7 +19,7 @@ public class AddressBookDTO {
     @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message = "Last name Invalid")
     private String lastName;
     @NotEmpty(message = "Contact number cannot be empty")
-    @Size(min = 10,max = 10)
+    @Size(min = 10,max = 10, message = "Contact number must be 10 digit p")
     private String contactNo;
     @NotEmpty(message = "City cannot be empty")
     private String city;
