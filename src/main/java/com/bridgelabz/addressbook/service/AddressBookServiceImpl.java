@@ -2,6 +2,7 @@ package com.bridgelabz.addressbook.service;
 
 import com.bridgelabz.addressbook.dto.AddressBookDTO;
 import com.bridgelabz.addressbook.entity.AddressBook;
+import com.bridgelabz.addressbook.exceptions.AddressBookException;
 import com.bridgelabz.addressbook.repository.AddressBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class AddressBookServiceImpl implements IAddressBookService{
 
     @Override
     public ResponseEntity<AddressBook> getAddressBookDataById(long personId) {
-        AddressBook addressBook = addressBookRepo.findById(personId).orElse(null);
+        AddressBook addressBook = addressBookRepo.findById(personId).orElseThrow(() -> new AddressBookException("Contact not found with id : "+personId));
         return new ResponseEntity<>(addressBook, HttpStatus.OK);
     }
 
@@ -37,7 +38,7 @@ public class AddressBookServiceImpl implements IAddressBookService{
 
     @Override
     public ResponseEntity<AddressBook> updateAddressBookData(long personId, AddressBookDTO addressBookDTO) {
-        AddressBook addressBook = addressBookRepo.findById(personId).orElse(null);
+        AddressBook addressBook = addressBookRepo.findById(personId).orElseThrow(() -> new AddressBookException("Contact not found with id : "+personId));
         if (addressBook != null){
             addressBook.setFirstName(addressBookDTO.getFirstName());
             addressBook.setLastName(addressBookDTO.getLastName());
