@@ -42,4 +42,13 @@ public class AddressBookController {
     public ResponseEntity<String> deleteAddressBookData(@PathVariable("personId") int personId) {
         return addressBookService.deleteAddressBookData(personId);
     }
+    @GetMapping("/getByEmail/{email}")
+    public ResponseEntity<AddressBook> getAddressBookByEmail(@PathVariable("email") String email){
+        return addressBookService.getAddressBookDataByEmail(email);
+    }
+
+    @GetMapping("/getByCity/{city}")
+    public ResponseEntity<List<AddressBook>> getAddressBookByCity(@PathVariable("city") String city){
+        return addressBookService.getAddressBookDataByCity(city);
+    }
 }

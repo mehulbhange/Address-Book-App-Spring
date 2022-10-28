@@ -16,4 +16,8 @@ public interface IAddressBookService {
     ResponseEntity<AddressBook> updateAddressBookData(long personId, AddressBookDTO addressBookDTO);
 
     ResponseEntity<String> deleteAddressBookData(long personId);
+
+    ResponseEntity<AddressBook> getAddressBookDataByEmail(String email);
+
+    ResponseEntity<List<AddressBook>> getAddressBookDataByCity(String city);
 }

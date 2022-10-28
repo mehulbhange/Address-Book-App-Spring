@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 @NoArgsConstructor
@@ -21,8 +19,14 @@ public class AddressBookDTO {
     @NotEmpty(message = "Contact number cannot be empty")
     @Size(min = 10,max = 10, message = "Contact number must be 10 digit p")
     private String contactNo;
+    @Email(message = "Invalid email ")
+    @NotEmpty(message = "Email cannot be empty")
+    private String email;
     @NotEmpty(message = "City cannot be empty")
     private String city;
-
+    @NotEmpty(message = "State cannot be empty")
+    private String state;
+    @Pattern(regexp = "^[0-9]{6}$")
+    private String zip;
 
 }
