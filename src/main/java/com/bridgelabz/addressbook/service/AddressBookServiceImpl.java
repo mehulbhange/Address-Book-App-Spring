@@ -14,13 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 @Service
 public class AddressBookServiceImpl implements IAddressBookService{
-
-    //List<AddressBook> addressBookList = new ArrayList<>();
+    
     @Autowired
     private AddressBookRepository addressBookRepo;
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EmailService emailService;
 
     /*This method is used to get all the records from db table*/
     @Override
@@ -39,6 +41,10 @@ public class AddressBookServiceImpl implements IAddressBookService{
     @Override
     public ResponseEntity<AddressBook> createAddressBookData(AddressBookDTO addressBookDTO) {
         AddressBook addressBook = addressBookRepo.save(modelMapper.map(addressBookDTO, AddressBook.class));
+        String email = addressBook.getEmail();
+        String body = "User added : "+ addressBook.toString();
+        String subject = "New user added";
+        String mailStatus = emailService.sendSimpleMail(email,subject,body);
         return new ResponseEntity<>(addressBook, HttpStatus.OK);
     }
     /*This method takes two arguments id and AddressBookDTO
@@ -50,6 +56,10 @@ public class AddressBookServiceImpl implements IAddressBookService{
         if (addressBook != null){
             addressBook = modelMapper.map(addressBookDTO, AddressBook.class);
             addressBook.setId(personId);
+            String email = addressBook.getEmail();
+            String body = "User updated : \n"+ addressBook.toString();
+            String subject = "User details updated";
+            emailService.sendSimpleMail(email,subject,body);
             addressBookRepo.save(addressBook);
         }
         return new ResponseEntity<>(addressBook, HttpStatus.OK);
